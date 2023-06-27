@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Enemy))]
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] List<WayPoint> pathList = new List<WayPoint>();
@@ -31,16 +32,23 @@ public class EnemyMover : MonoBehaviour
 
         pathList.Clear();
 
-        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Path");
+        GameObject parent = GameObject.FindGameObjectWithTag("Path");
 
-        foreach(GameObject waypoint in waypoints){
-            pathList.Add(waypoint.GetComponent<WayPoint>());
+        foreach(Transform child in parent.transform){
+            WayPoint waypoint = child.GetComponent<WayPoint>();
+            if(waypoint != null)
+                pathList.Add(waypoint);
         }
 
     }
 
     void ReturnToStart(){
         transform.position = pathList[0].transform.position;
+    }
+    
+    void FinishPath(){
+        if(enemy != null) enemy.StealGold();
+        gameObject.SetActive(false);
     }
 
     IEnumerator FollowPath(){ // 지정된 경로를 따라 선형적으로 이동하는 함수
@@ -57,7 +65,7 @@ public class EnemyMover : MonoBehaviour
             }
             
         }
-        if(enemy != null) enemy.StealGold();
-        gameObject.SetActive(false);
+        
+        FinishPath();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(TextMeshPro))]
 [ExecuteAlways] // 편집 모드와 플레이 모드 모두에서 실행되는 스크립트 설정
 public class Coordinate_Labler : MonoBehaviour
 {
@@ -31,9 +32,10 @@ public class Coordinate_Labler : MonoBehaviour
             // do something
             DisplayCoordinateLabel();
             UpdateTileName();
+            label.enabled = true;
         }
 
-        ColorCoordinate();
+        SetLabelColor();
         ToggleLabels();
 
     }
@@ -53,7 +55,7 @@ public class Coordinate_Labler : MonoBehaviour
 
     }
 
-    void ColorCoordinate()
+    void SetLabelColor()
     {
         if (waypoint.isPlaceAble)
         {
