@@ -5,67 +5,83 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public class EnemyMover : MonoBehaviour
 {
-    [SerializeField] List<WayPoint> pathList = new List<WayPoint>();
-    [SerializeField] [Range(0,5)] float movingSpeed = 1f; // 적의 이동 속도, 0보다 작으면 안되기에 Range로 0을 미니멈으로 지정
 
+    [SerializeField][Range(0, 5)] float movingSpeed = 1f; // 적의 이동 속도, 0보다 작으면 안되기에 Range로 0을 미니멈으로 지정
+
+    List<Node> pathList = new List<Node>();
     Enemy enemy;
+    GridManager gridManager;
+    PathFinding pathFinder;
+
+    
     // Start is called before the first frame update
-    void Start() {
+    void Awake()
+    {
         enemy = FindObjectOfType<Enemy>();
+        gridManager = FindObjectOfType<GridManager>();
+        pathFinder = FindObjectOfType<PathFinding>();
     }
     void OnEnable()
     {
-        
-        FindPath();
         ReturnToStart();
-        StartCoroutine(FollowPath());
+        RecalculatePath(true);
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    void FindPath(){
+    void RecalculatePath(bool resetPath)
+    {
+        Vector2Int coordinates = new Vector2Int();
 
-        pathList.Clear();
-
-        GameObject parent = GameObject.FindGameObjectWithTag("Path");
-
-        foreach(Transform child in parent.transform){
-            WayPoint waypoint = child.GetComponent<WayPoint>();
-            if(waypoint != null)
-                pathList.Add(waypoint);
+        if(resetPath){
+            coordinates = pathFinder.startPos;
+        }
+        else{
+            coordinates = gridManager.GetCoordinatesFromPostion(transform.position);
         }
 
+        StopAllCoroutines();
+        pathList.Clear();
+        pathList = pathFinder.GetNewPath(coordinates);
+
+        StartCoroutine(FollowPath());
+
     }
 
-    void ReturnToStart(){
-        transform.position = pathList[0].transform.position;
+    void ReturnToStart()
+    {
+        transform.position = gridManager.GetPositionFromCoordinates(pathFinder.startPos);
     }
-    
-    void FinishPath(){
-        if(enemy != null) enemy.StealGold();
+
+    void FinishPath()
+    {
+        if (enemy != null) enemy.StealGold();
         gameObject.SetActive(false);
     }
 
-    IEnumerator FollowPath(){ // 지정된 경로를 따라 선형적으로 이동하는 함수
-        foreach(WayPoint waypoint in pathList){
+    IEnumerator FollowPath()
+    { // 지정된 경로를 따라 선형적으로 이동하는 함수
+        for(int i = 1; i < pathList.Count; i++)
+        {
             Vector3 startPosition = transform.position;
-            Vector3 endPosition = waypoint.transform.position;
+            Vector3 endPosition = gridManager.GetPositionFromCoordinates(pathList[i].coordinates);
             float travelPercent = 0;
             transform.LookAt(endPosition);
 
-            while(travelPercent < 1f){
+            while (travelPercent < 1f)
+            {
                 travelPercent += Time.deltaTime * movingSpeed;
                 transform.position = Vector3.Lerp(startPosition, endPosition, travelPercent);
                 yield return new WaitForEndOfFrame();
             }
-            
+
         }
-        
+
         FinishPath();
     }
 }

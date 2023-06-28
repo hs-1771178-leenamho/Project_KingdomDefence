@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: ba7a1c001fb9ee346acaa5343b5767e5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - towerPrefab: {fileID: -4437471351081921075, guid: 8a965e088bae16643aab3d07ccfd5e2e, type: 3}
+  executionOrder: -10
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

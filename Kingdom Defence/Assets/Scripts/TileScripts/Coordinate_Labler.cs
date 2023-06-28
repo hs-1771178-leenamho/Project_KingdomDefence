@@ -10,16 +10,20 @@ public class Coordinate_Labler : MonoBehaviour
 
     [SerializeField] Color defaultColor = Color.white;
     [SerializeField] Color blockedColor = Color.gray;
+    [SerializeField] Color exploredColor = Color.magenta;
+    [SerializeField] Color pathedColor = Color.red;
 
     TextMeshPro label;
     Vector2Int coordinates = new Vector2Int();
 
-    WayPoint waypoint;
+    GridManager gridManager;
+    //WayPoint waypoint;
 
     void Awake()
     {
         label = GetComponent<TextMeshPro>();
-        waypoint = GetComponentInParent<WayPoint>();
+        gridManager = FindObjectOfType<GridManager>();
+        //waypoint = GetComponentInParent<WayPoint>();
         label.enabled = false;
         DisplayCoordinateLabel();
     }
@@ -42,8 +46,10 @@ public class Coordinate_Labler : MonoBehaviour
 
     private void DisplayCoordinateLabel()
     {
-        coordinates.x = Mathf.RoundToInt(transform.parent.position.x / UnityEditor.EditorSnapSettings.move.x);
-        coordinates.y = Mathf.RoundToInt(transform.parent.position.z / UnityEditor.EditorSnapSettings.move.z);
+        if(gridManager == null) return;
+
+        coordinates.x = Mathf.RoundToInt(transform.parent.position.x / gridManager.unityGridSize);
+        coordinates.y = Mathf.RoundToInt(transform.parent.position.z / gridManager.unityGridSize);
 
         label.text = "(" + coordinates.x + "," + coordinates.y + ")";
 
@@ -57,14 +63,34 @@ public class Coordinate_Labler : MonoBehaviour
 
     void SetLabelColor()
     {
+        if(gridManager == null) return;
+        
+        Node node = gridManager.GetNode(coordinates);
+        if(node == null) return;
+        /*
         if (waypoint.isPlaceAble)
+        
         {
             label.color = defaultColor;
         }
         else
         {
             label.color = blockedColor;
+        }*/
+
+        if(!node.isWalkable){
+            label.color = blockedColor;
         }
+        else if(node.isPathed){
+            label.color = pathedColor;
+        }
+        else if(node.isExplored){
+            label.color = exploredColor;
+        }
+        else{
+            label.color = defaultColor;
+        }
+        
     }
 
     void ToggleLabels()
