@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638235360073438094
-    m_Hash: 530078589
+      ticks: 638237839650714911
+    m_Hash: 3223020610
   m_LockFileStatus:
     m_FilePath: C:/Users/namho/Documents/GitHub/Project_KingdomDefence/Kingdom Defence/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638235360073525840
-    m_Hash: 1882038130
+      ticks: 638237839650724912
+    m_Hash: 1555996946
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -2941,6 +2941,7 @@ m_PackageAssets:
         - 2.0.2
         - 2.0.3
         - 2.0.4
+        - 2.0.5
         compatible:
         - 0.1.5-preview
         - 0.1.6-preview
@@ -2951,6 +2952,7 @@ m_PackageAssets:
         - 2.0.2
         - 2.0.3
         - 2.0.4
+        - 2.0.5
         verified: 1.0.6
       dependencies: []
       resolvedDependencies: []
