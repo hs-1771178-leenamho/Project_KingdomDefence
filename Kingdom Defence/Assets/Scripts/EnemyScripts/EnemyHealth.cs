@@ -39,7 +39,7 @@ public class EnemyHealth : MonoBehaviour
         curHP--;
         if (curHP <= 0)
         {
-            if(enemy != null) enemy.RewardGold();
+            if(enemy != null) enemy.Reward();
             maxHP += difficultyRamp;
             gameObject.SetActive(false);
         }
