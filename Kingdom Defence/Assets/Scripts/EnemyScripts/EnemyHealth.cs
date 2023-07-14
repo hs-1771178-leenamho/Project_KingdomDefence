@@ -9,8 +9,12 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] int maxHP = 5;
     [Tooltip("Increase enemy's HP when enemy dies")]
     [SerializeField] int difficultyRamp = 1;
+    [SerializeField] AudioSource deadSound;
+    
+    
+    
     int curHP = 0;
-     
+    
 
     Enemy enemy;
     // Start is called before the first frame update
@@ -22,6 +26,7 @@ public class EnemyHealth : MonoBehaviour
         curHP = maxHP;
         
     }
+
 
     // Update is called once per frame
     void Update()
@@ -36,12 +41,19 @@ public class EnemyHealth : MonoBehaviour
 
     private void ProcessHit()
     {
+        
         curHP--;
         if (curHP <= 0)
         {
             if(enemy != null) enemy.Reward();
             maxHP += difficultyRamp;
+            
+
             gameObject.SetActive(false);
         }
     }
+
+    
+
+
 }

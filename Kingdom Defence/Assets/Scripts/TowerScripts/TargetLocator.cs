@@ -7,6 +7,7 @@ public class TargetLocator : MonoBehaviour
     [SerializeField] Transform weapon;
     [SerializeField] float towerRange = 15f;
     [SerializeField] ParticleSystem towerParticle;
+    [SerializeField] AudioSource attackSound;
     Transform target;
 
     // Update is called once per frame
@@ -46,6 +47,12 @@ public class TargetLocator : MonoBehaviour
 
     void Attack(bool isActive){
         var emissionModule = towerParticle.emission;
+        if(Time.timeScale == 0){
+            emissionModule.enabled = false;
+            attackSound.enabled = false;
+        }
         emissionModule.enabled = isActive;
+        attackSound.enabled = isActive;
+
     }
 }

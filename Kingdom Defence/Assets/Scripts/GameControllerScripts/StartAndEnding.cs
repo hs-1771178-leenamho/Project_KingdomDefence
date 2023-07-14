@@ -5,17 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class StartAndEnding : MonoBehaviour
 {
-    
-    public void StartGame(){
-        SceneManager.LoadScene(1);
+    [SerializeField] AudioSource buttonClickSFX;
 
+    public void StartGame(){
+        StartCoroutine(LoadLevel(1));
     }   
 
     public void RestartGame(){
-        SceneManager.LoadScene(0);
+        StartCoroutine(LoadLevel(0));
     }
 
     public void QuitGame(){
+        buttonClickSFX.Play();
         Application.Quit();
-    } 
+    }
+
+    IEnumerator LoadLevel(int idx){
+        buttonClickSFX.Play();
+        yield return new WaitForSecondsRealtime(0.5f);
+        SceneManager.LoadScene(idx);
+    }
 }

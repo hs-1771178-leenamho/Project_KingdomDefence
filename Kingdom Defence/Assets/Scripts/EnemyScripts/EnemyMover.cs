@@ -12,6 +12,7 @@ public class EnemyMover : MonoBehaviour
     Enemy enemy;
     GridManager gridManager;
     PathFinding pathFinder;
+    GameControll gameControll;
 
     
     // Start is called before the first frame update
@@ -20,6 +21,7 @@ public class EnemyMover : MonoBehaviour
         enemy = FindObjectOfType<Enemy>();
         gridManager = FindObjectOfType<GridManager>();
         pathFinder = FindObjectOfType<PathFinding>();
+        gameControll = FindObjectOfType<GameControll>();
     }
     void OnEnable()
     {
@@ -29,10 +31,7 @@ public class EnemyMover : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 
     void RecalculatePath(bool resetPath)
     {

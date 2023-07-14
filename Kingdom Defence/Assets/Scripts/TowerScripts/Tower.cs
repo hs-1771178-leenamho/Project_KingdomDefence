@@ -7,13 +7,18 @@ public class Tower : MonoBehaviour
     [SerializeField] int cost = 50;
     [SerializeField] float buildDealy = 1f;
 
+    
+
+    
     void Start() {
+        
         StartCoroutine(Build());    
     }
     public bool CreateTower(Tower tower, Vector3 spawnTransform)
     {
         Bank bank = FindObjectOfType<Bank>();
         if (bank == null) return false;
+        if(Time.timeScale == 0) return false;
 
         if (bank.curBalance >= cost)
         {
